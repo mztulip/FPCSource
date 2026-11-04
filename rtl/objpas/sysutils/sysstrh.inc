@@ -69,7 +69,8 @@ function NewStr(const S: string): PString; overload;
 procedure DisposeStr(S: PString); overload;
 procedure DisposeStr(S: PShortString); overload;
 procedure AssignStr(var P: PString; const S: string); {$ifdef SYSUTILSINLINE}inline;{$endif}
-procedure AppendStr(var Dest: String; const S: string);{$ifdef SYSUTILSINLINE}inline;{$endif}
+procedure AppendStr(var Dest: String; const S: string); overload; {$ifdef SYSUTILSINLINE}inline;{$endif}
+procedure AppendStr(var Dest: OpenString; const S: ShortString); overload; {$ifdef SYSUTILSINLINE}inline;{$endif}
 function UpperCase(const s: ansistring): ansistring; overload;
 function UpperCase(const s: ansistring; LocaleOptions: TLocaleOptions): ansistring; overload;{$ifdef SYSUTILSINLINE}inline;{$endif}
 function LowerCase(const s: ansistring): ansistring; overload;

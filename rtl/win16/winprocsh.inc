@@ -398,11 +398,11 @@ function GetBrushOrg(hdc: HDC): DWORD; external 'GDI';
 function CreateRectRgn(nLeftRect, nTopRect, nRightRect, nBottomRect: SmallInt): HRGN; external 'GDI';
 function CreateRectRgnIndirect(lprc: LPRECT): HRGN; external 'GDI';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function CreateRectRgnIndirect(var rc: RECT): HRGN; external 'GDI';
+function CreateRectRgnIndirect(const rc: RECT): HRGN; external 'GDI';
 {$endif}
 function CreateEllipticRgnIndirect(lprc: LPRECT): HRGN; external 'GDI';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function CreateEllipticRgnIndirect(var rc: RECT): HRGN; external 'GDI';
+function CreateEllipticRgnIndirect(const rc: RECT): HRGN; external 'GDI';
 {$endif}
 function CreateEllipticRgn(nLeftRect, nTopRect, nRightRect, nBottomRect: SmallInt): HRGN; external 'GDI';
 function CreatePolygonRgn(lppt: LPPOINT; cPoints, fnPolyFillMode: SmallInt): HRGN; external 'GDI';
@@ -429,7 +429,7 @@ function GetRgnBox(hrgn: HRGN; var rc: RECT): SmallInt; external 'GDI';
 
 function RectInRegion(hrgn: HRGN; lprc: LPRECT): BOOL; external 'GDI';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function RectInRegion(hrgn: HRGN; var rc: RECT): BOOL; external 'GDI';
+function RectInRegion(hrgn: HRGN; const rc: RECT): BOOL; external 'GDI';
 {$endif}
 function PtInRegion(hrgn: HRGN; nXPos, nYPos: SmallInt): BOOL; external 'GDI';
 
@@ -487,7 +487,7 @@ function ExcludeClipRect(hdc: HDC; nLeftRect, nTopRect, nRightRect, nBottomRect:
 function PtVisible(hdc: HDC; nXPos, nYPos: SmallInt): BOOL; external 'GDI';
 function RectVisible(hdc: HDC; lprc: LPRECT): BOOL; external 'GDI';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function RectVisible(hdc: HDC; var rc: RECT): BOOL; external 'GDI';
+function RectVisible(hdc: HDC; const rc: RECT): BOOL; external 'GDI';
 {$endif}
 
 { General drawing support }
@@ -532,14 +532,14 @@ function FillRect(hdc: HDC; lprc: LPRECT; hbr: HBRUSH): SmallInt; external 'USER
 function FrameRect(hdc: HDC; lprc: LPRECT; hbr: HBRUSH): SmallInt; external 'USER';
 procedure InvertRect(hdc: HDC; lprc: LPRECT); external 'USER';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function FillRect(hdc: HDC; var rc: RECT; hbr: HBRUSH): SmallInt; external 'USER';
-function FrameRect(hdc: HDC; var rc: RECT; hbr: HBRUSH): SmallInt; external 'USER';
-procedure InvertRect(hdc: HDC; var rc: RECT); external 'USER';
+function FillRect(hdc: HDC; const rc: RECT; hbr: HBRUSH): SmallInt; external 'USER';
+function FrameRect(hdc: HDC; const rc: RECT; hbr: HBRUSH): SmallInt; external 'USER';
+procedure InvertRect(hdc: HDC; const rc: RECT); external 'USER';
 {$endif}
 
 procedure DrawFocusRect(hdc: HDC; lprc: LPRECT); external 'USER';
 {$ifdef VAR_PARAMS_ARE_FAR}
-procedure DrawFocusRect(hdc: HDC; var rc: RECT); external 'USER';
+procedure DrawFocusRect(hdc: HDC; const rc: RECT); external 'USER';
 {$endif}
 
 { Text support }
@@ -719,8 +719,8 @@ function IsRectEmpty(lprc: LPRECT): BOOL; external 'USER';
 
 function EqualRect(lprc1, lprc2: LPRECT): BOOL; external 'USER';
 
-function IntersectRect(lprcDest: LPRECT; lprcSrc1, lprcSrc2: LPRECT): BOOL; external 'USER';
-function UnionRect(lprcDest: LPRECT; lprcSrc1, lprcSrc2: LPRECT): BOOL; external 'USER';
+function IntersectRect(lprcDest: LPRECT; lprcSrc1, lprcSrc2: LPRECT): SmallInt; external 'USER';
+function UnionRect(lprcDest: LPRECT; lprcSrc1, lprcSrc2: LPRECT): SmallInt; external 'USER';
 
 procedure OffsetRect(lprc: LPRECT; x, y: SmallInt); external 'USER';
 procedure InflateRect(lprc: LPRECT; xAmt, yAmt: SmallInt); external 'USER';
@@ -731,19 +731,19 @@ function PtInRect(lprc: LPRECT; pt: POINT): BOOL; external 'USER';
 procedure SetRect(var rc: RECT; nLeft, nTop, nRight, nBottom: SmallInt); external 'USER';
 procedure SetRectEmpty(var rc: RECT); external 'USER';
 
-procedure CopyRect(var rcDst: RECT; var rcSrc: RECT); external 'USER';
+procedure CopyRect(var rcDst: RECT; const rcSrc: RECT); external 'USER';
 
-function IsRectEmpty(var rc: RECT): BOOL; external 'USER';
+function IsRectEmpty(const rc: RECT): BOOL; external 'USER';
 
-function EqualRect(var rc1, rc2: RECT): BOOL; external 'USER';
+function EqualRect(const rc1, rc2: RECT): BOOL; external 'USER';
 
-function IntersectRect(var rcDest: RECT; var rcSrc1, rcSrc2: RECT): BOOL; external 'USER';
-function UnionRect(var rcDest: RECT; var rcSrc1, rcSrc2: RECT): BOOL; external 'USER';
+function IntersectRect(var rcDest: RECT; const rcSrc1, rcSrc2: RECT): SmallInt; external 'USER';
+function UnionRect(var rcDest: RECT; const rcSrc1, rcSrc2: RECT): SmallInt; external 'USER';
 
 procedure OffsetRect(var rc: RECT; x, y: SmallInt); external 'USER';
 procedure InflateRect(var rc: RECT; xAmt, yAmt: SmallInt); external 'USER';
 
-function PtInRect(var rc: RECT; pt: POINT): BOOL; external 'USER';
+function PtInRect(const rc: RECT; pt: POINT): BOOL; external 'USER';
 {$endif}
 
 { Window message support }

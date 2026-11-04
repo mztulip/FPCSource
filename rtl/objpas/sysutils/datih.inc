@@ -165,6 +165,8 @@ function FormatDateTime(const FormatStr: string; DateTime: TDateTime; Options : 
 function FormatDateTime(const FormatStr: string; DateTime: TDateTime; const FormatSettings: TFormatSettings; Options : TFormatDateTimeOptions = []): string;
 procedure DateTimeToString(out Result: string; const FormatStr: string; const DateTime: TDateTime; Options : TFormatDateTimeOptions = []);
 procedure DateTimeToString(out Result: string; const FormatStr: string; const DateTime: TDateTime; const FormatSettings: TFormatSettings; Options : TFormatDateTimeOptions = []);
+procedure DateTimeToString(out Result: OpenString; const FormatStr: ShortString; const DateTime: TDateTime; Options : TFormatDateTimeOptions = []);
+procedure DateTimeToString(out Result: OpenString; const FormatStr: ShortString; const DateTime: TDateTime; const FormatSettings: TFormatSettings; Options : TFormatDateTimeOptions = []);
 Function DateTimeToFileDate(DateTime : TDateTime) : int64;
 Function UniversalToFileDate(DateTime : TDateTime) : int64;
 Function FileDateToDateTime (Filedate : Int64) :TDateTime;

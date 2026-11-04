@@ -159,6 +159,8 @@ unit cpupara;
                  (calloption=pocall_stdcall) and
                  (varspez=vs_value) then
                 result:=false
+              else if (varspez=vs_value) and (def.size in [1,2,4]) then
+                result:=false
               else
                 result:=
                   (not(calloption in (cdecl_pocalls)) and

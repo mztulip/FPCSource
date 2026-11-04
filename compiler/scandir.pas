@@ -1480,6 +1480,10 @@ unit scandir;
             else
               current_module.resourcefiles.insert(FixFileName(s));
           end
+        else if target_info.system=system_i8086_win16 then
+          begin
+            { Win16 resource directives ($R *.dfm, $R *.res) are handled externally by wrc }
+          end
         else
           Message(scan_e_resourcefiles_not_supported);
       end;

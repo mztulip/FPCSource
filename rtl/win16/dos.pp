@@ -75,11 +75,18 @@ implementation
 
 {$IFDEF FPC_DOTTEDUNITS}
 uses
-  System.Strings, WinApi.WinProcs, WinApi.WinTypes;
+  WinApi.WinProcs, WinApi.WinTypes;
 {$ELSE FPC_DOTTEDUNITS}
 uses
-  strings, winprocs, wintypes;
+  winprocs, wintypes;
 {$ENDIF FPC_DOTTEDUNITS}
+
+function strpcopy(d: PAnsiChar; const s: shortstring): PAnsiChar;
+begin
+  Move(s[1], d[0], Length(s));
+  d[Length(s)] := #0;
+  strpcopy := d;
+end;
 
 type
   PFarByte = ^Byte;far;

@@ -48,7 +48,11 @@ type
 
    TProcedure = procedure;
 
+{$if defined(i8086) or defined(win16)}
+   TFileName = type ShortString;
+{$else}
    TFileName = type string;
+{$endif}
 
    TIntegerSet = Set of 0..SizeOf(Integer)*8-1;
 

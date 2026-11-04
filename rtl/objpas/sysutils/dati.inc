@@ -1308,6 +1308,24 @@ begin
     result := '-' + result;
 end ;
 
+procedure DateTimeToString(out Result: OpenString; const FormatStr: ShortString;
+  const DateTime: TDateTime; Options : TFormatDateTimeOptions = []);
+var
+  S: AnsiString;
+begin
+  DateTimeToString(S, AnsiString(FormatStr), DateTime, DefaultFormatSettings, Options);
+  Result := S;
+end;
+
+procedure DateTimeToString(out Result: OpenString; const FormatStr: ShortString; const DateTime: TDateTime;
+  const FormatSettings: TFormatSettings; Options : TFormatDateTimeOptions = []);
+var
+  S: AnsiString;
+begin
+  DateTimeToString(S, AnsiString(FormatStr), DateTime, FormatSettings, Options);
+  Result := S;
+end;
+
 
 Function DateTimeToFileDate(DateTime : TDateTime) : Int64;
 

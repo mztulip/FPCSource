@@ -75,8 +75,13 @@ end ;
 
 procedure AppendStr(var Dest: String; const S: string);
 begin
-Dest := Dest + S;
-end ;
+  Dest := Dest + S;
+end;
+
+procedure AppendStr(var Dest: OpenString; const S: ShortString);
+begin
+  Dest := Dest + S;
+end;
 
 function IsLeadChar(C: AnsiChar): Boolean; inline;
 

@@ -289,6 +289,8 @@ begin
   else
     LinkRes.Add('name ' + maybequoted(current_module.exefilename));
   LinkRes.Add('option dosseg');
+  LinkRes.Add('option packcode=57344');
+  LinkRes.Add('option packdata=57344');
 
   { Write and Close response }
   linkres.writetodisk;
