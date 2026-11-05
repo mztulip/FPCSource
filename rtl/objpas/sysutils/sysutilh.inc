@@ -50,8 +50,10 @@ type
 
 {$if defined(i8086) or defined(win16)}
    TFileName = type ShortString;
+   TFileExt = type ShortString;
 {$else}
    TFileName = type string;
+   TFileExt = type string;
 {$endif}
 
    TIntegerSet = Set of 0..SizeOf(Integer)*8-1;
@@ -127,14 +129,19 @@ type
     public
       constructor Create(const msg : string);
       constructor CreateFmt(const msg : string; const args : array of const);
-      constructor CreateRes(ResString: PResStringRec);
-      constructor CreateResFmt(ResString: PResStringRec; const Args: array of const);
+      constructor CreateRes(Ident: Integer); overload;
+      constructor CreateRes(ResString: PResStringRec); overload;
+      constructor CreateResFmt(Ident: Integer; const Args: array of const); overload;
+      constructor CreateResFmt(ResString: PResStringRec; const Args: array of const); overload;
       constructor CreateHelp(const Msg: string; AHelpContext: Longint);
       constructor CreateFmtHelp(const Msg: string; const Args: array of const;
         AHelpContext: Longint);
-      constructor CreateResHelp(ResString: PResStringRec; AHelpContext: Longint);
+      constructor CreateResHelp(Ident: Integer; AHelpContext: Longint); overload;
+      constructor CreateResHelp(ResString: PResStringRec; AHelpContext: Longint); overload;
+      constructor CreateResFmtHelp(Ident: Integer; const Args: array of const;
+        AHelpContext: Longint); overload;
       constructor CreateResFmtHelp(ResString: PResStringRec; const Args: array of const;
-        AHelpContext: Longint);
+        AHelpContext: Longint); overload;
       // Free the inner exception and the stack information.
       destructor Destroy; override;
       Function ToString : RTLString; override;

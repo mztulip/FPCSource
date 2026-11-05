@@ -1251,6 +1251,16 @@ begin
   FmtStr(Res,Fmt,Args,DefaultFormatSettings);
 end;
 
+Procedure FmtStr(Var Res: OpenString; const Fmt : ShortString; Const args: Array of const; Const FormatSettings: TFormatSettings);
+begin
+  Res:=Format(String(fmt),Args,FormatSettings);
+end;
+
+Procedure FmtStr(Var Res: OpenString; Const Fmt : ShortString; Const args: Array of const);
+begin
+  FmtStr(Res,Fmt,Args,DefaultFormatSettings);
+end;
+
 
 Function StrFmt(Buffer,Fmt : PChar; Const args: Array of const) : PChar;
 

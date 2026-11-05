@@ -84,6 +84,7 @@ const
 
 { ExitWindows values }
   EW_RESTARTWINDOWS = $42;
+  EW_REBOOTSYSTEM   = $43;
 
 { SetErrorMode() constants }
   SEM_FAILCRITICALERRORS = $0001;
@@ -1462,6 +1463,8 @@ const
 { Extended Window Styles }
   WS_EX_DLGMODALFRAME  = $00000001;
   WS_EX_NOPARENTNOTIFY = $00000004;
+  WS_EX_ACCEPTFILES    = $00000010;
+  WS_EX_TRANSPARENT    = $00000020;
 
 { Obsolete style names }
   WS_TILED             = WS_OVERLAPPED;
@@ -2930,3 +2933,8 @@ const
   COM_XoffSent  = $10;
   COM_Eof       = $20;
   COM_Txim      = $40;
+
+  { Free System Resources constants }
+  GFSR_SYSTEMRESOURCES = $0000;
+  GFSR_GDIRESOURCES    = $0001;
+  GFSR_USERRESOURCES   = $0002;

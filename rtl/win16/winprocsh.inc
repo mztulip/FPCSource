@@ -152,6 +152,7 @@ function SetSelectorLimit(Selector: UINT; Base: DWORD): UINT; external 'KERNEL';
 procedure LimitEmsPages(Kbytes: DWORD); external 'KERNEL';
 
 procedure ValidateFreeSpaces; external 'KERNEL';
+procedure DOS3Call; external 'KERNEL' name 'DOS3CALL';
 
 { Local Memory Management }
 
@@ -559,7 +560,7 @@ function GetTabbedTextExtent(hdc: HDC; lpszString: LPCSTR; cChars, cTabs: SmallI
 
 function DrawText(hdc: HDC; lpsz: LPCSTR; cb: SmallInt; lprc: LPRECT; fuFormat: UINT): SmallInt; external 'USER';
 {$ifdef VAR_PARAMS_ARE_FAR}
-function DrawText(hdc: HDC; lpsz: LPCSTR; cb: SmallInt; var rc: RECT; fuFormat: UINT): SmallInt; external 'USER';
+function DrawText(hdc: HDC; lpsz: LPCSTR; cb: SmallInt; const rc: RECT; fuFormat: UINT): SmallInt; external 'USER';
 {$endif}
 
 function GrayString(hdc: HDC; hbr: HBRUSH; gsprc: GRAYSTRINGPROC; lParam: LPARAM; cch, x, y, cx, cy: SmallInt): BOOL; external 'USER';
@@ -704,6 +705,7 @@ function Escape(hdc: HDC; nEscape, cbInput: SmallInt; lpszInData: LPCSTR; lpvOut
 { System Metrics }
 
 function GetSystemMetrics(nIndex: SmallInt): SmallInt; external 'USER';
+function GetFreeSystemResources(SysResource: UINT): UINT; external 'USER';
 
 function GetDoubleClickTime: UINT; external 'USER';
 procedure SetDoubleClickTime(uInterval: UINT); external 'USER';
@@ -1104,6 +1106,7 @@ function ChangeClipboardChain(hwnd, hwndNext: HWND): BOOL; external 'USER';
 { Mouse cursor support }
 
 function LoadCursor(hinst: HINST; pszCursor: LPCSTR): HCURSOR; external 'USER';
+function CopyCursor(hinst: HINST; hcur: HCURSOR): HCURSOR; external 'USER';
 function CreateCursor(hinst: HINST; xHotSpot, yHotSpot, nWidth, nHeight: SmallInt; lpvANDplane, lpvXORplane: LPVOID): HCURSOR; external 'USER';
 function DestroyCursor(hcur: HCURSOR): BOOL; external 'USER';
 
@@ -1122,6 +1125,7 @@ procedure ClipCursor(lprc: LPRECT); external 'USER';
 { Icon support }
 
 function LoadIcon(hinst: HINST; pszIcon: LPCSTR): HICON; external 'USER';
+function CopyIcon(hinst: HINST; hicon: HICON): HICON; external 'USER';
 function CreateIcon(hinst: HINST; nWidth, nHeight: SmallInt; bPlanes, bBitsPerPixel: BYTE; lpvANDbits, lpvXORbits: LPVOID): HICON; external 'USER';
 function DestroyIcon(hicon: HICON): BOOL; external 'USER';
 

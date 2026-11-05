@@ -211,6 +211,12 @@ end;
       end;
 
 
+    constructor Exception.CreateRes(Ident: Integer);
+      begin
+         inherited create;
+         fmessage:=LoadStr(Ident);
+      end;
+
     constructor Exception.CreateRes(ResString: PResStringRec);
 
       begin
@@ -218,6 +224,11 @@ end;
          fmessage:=ResString^;
       end;
 
+    constructor Exception.CreateResFmt(Ident: Integer; const Args: array of const);
+      begin
+         inherited create;
+         fmessage:=Format(LoadStr(Ident),args);
+      end;
 
     constructor Exception.CreateResFmt(ResString: PResStringRec; const Args: array of const);
 
@@ -246,6 +257,13 @@ end;
     end;
 
 
+    constructor Exception.CreateResHelp(Ident: Integer; AHelpContext: Longint);
+    begin
+       inherited create;
+       fmessage:=LoadStr(Ident);
+       fhelpcontext:=AHelpContext;
+    end;
+
     constructor Exception.CreateResHelp(ResString: PResStringRec; AHelpContext: Longint);
 
     begin
@@ -254,6 +272,13 @@ end;
        fhelpcontext:=AHelpContext;
     end;
 
+    constructor Exception.CreateResFmtHelp(Ident: Integer; const Args: array of const;
+      AHelpContext: Longint);
+    begin
+       inherited create;
+       fmessage:=Format(LoadStr(Ident),args);
+       fhelpcontext:=AHelpContext;
+    end;
 
     constructor Exception.CreateResFmtHelp(ResString: PResStringRec; const Args: array of const;
       AHelpContext: Longint);

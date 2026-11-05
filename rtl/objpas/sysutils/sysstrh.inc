@@ -176,6 +176,8 @@ Function StrLFmt(Buffer : PChar; Maxlen : Cardinal;Fmt : PChar; Const args: Arra
 Function StrLFmt(Buffer : PChar; Maxlen : Cardinal;Fmt : PChar; Const args: Array of const; Const FormatSettings: TFormatSettings) : PChar;
 Procedure FmtStr(Var Res: String; Const Fmt : String; Const args: Array of const);
 Procedure FmtStr(Var Res: string; const Fmt : string; Const args: Array of const; Const FormatSettings: TFormatSettings);
+Procedure FmtStr(Var Res: OpenString; Const Fmt : ShortString; Const args: Array of const);
+Procedure FmtStr(Var Res: OpenString; const Fmt : ShortString; Const args: Array of const; Const FormatSettings: TFormatSettings);
 {$ifndef FPUNONE}
 {$ifdef FPC_HAS_TYPE_EXTENDED}
 Function FloatToStrF(Value: Extended; format: TFloatFormat; Precision, Digits: Integer): String;
