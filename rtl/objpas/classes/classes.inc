@@ -1389,15 +1389,21 @@ end;
 function PointsEqual(const P1, P2: TPoint): Boolean; {$ifdef CLASSESINLINE}inline;{$endif CLASSESINLINE}
   begin
     { lazy, but should work }
+    {$ifdef win16}
+    result := (P1.x = P2.x) and (P1.y = P2.y);
+    {$else}
     result:=QWord(P1)=QWord(P2);
+    {$endif}
   end;
 
 
+{$ifndef win16}
 function PointsEqual(const P1, P2: TSmallPoint): Boolean; {$ifdef CLASSESINLINE}inline;{$endif CLASSESINLINE}
   begin
     { lazy, but should work }
     result:=DWord(P1)=DWord(P2);
   end;
+{$endif}
 
 function InvalidPoint(X, Y: Integer): Boolean;
   begin
@@ -1411,10 +1417,12 @@ function InvalidPoint(const At: TPoint): Boolean;
   end;
 
 
+{$ifndef win16}
 function InvalidPoint(const At: TSmallPoint): Boolean;
   begin
     result:=(At.x=-1) and (At.y=-1);
   end;
+{$endif}
 
 
 { Object filing routines }

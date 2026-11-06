@@ -149,6 +149,22 @@ const
   srTop = TSplitRectType.srTop;
   srBottom = TSplitRectType.srBottom;
 type
+{$elseif defined(win16)}
+  TArray4IntegerType = array[0..3] of SmallInt;
+  TSmallPoint = WinTypes.TPoint;
+  PSmallPoint = WinTypes.PPOINT;
+
+  TSize  = WinTypes.TSize;
+  TagSize  = WinTypes.SIZE deprecated;
+  PSize  = WinTypes.PSIZE;
+
+  TPoint = WinTypes.TPoint;
+  TagPoint = WinTypes.POINT deprecated;
+  PPoint = WinTypes.PPOINT;
+
+  TRect  = WinTypes.TRect;
+  PRect  = WinTypes.PRECT;
+  TSplitRectType = (srLeft, srRight, srTop, srBottom);
 {$else}
   {$i typshrdh.inc}
    TagSize = tSize deprecated;
@@ -598,7 +614,7 @@ Uses System.Math;
 Uses Math;
 {$ENDIF FPC_DOTTEDUNITS}
 
-{$if (not defined(win32)) and (not defined(win64)) and (not defined(wince))}
+{$if (not defined(win32)) and (not defined(win64)) and (not defined(wince)) and (not defined(win16))}
   {$i typshrd.inc}
 {$endif}
 
@@ -827,13 +843,33 @@ end;
 function SplitRect(const Rect: TRect; SplitType: TSplitRectType; Size: Integer): TRect; overload;
 
 begin
+{$ifdef win16}
+  Result := Rect;
+  case SplitType of
+    srLeft: Result.Right := Result.Left + Size;
+    srRight: Result.Left := Result.Right - Size;
+    srTop: Result.Bottom := Result.Top + Size;
+    srBottom: Result.Top := Result.Bottom - Size;
+  end;
+{$else}
   Result:=Rect.SplitRect(SplitType,Size);
+{$endif}
 end;
 
 function SplitRect(const Rect: TRect; SplitType: TSplitRectType; Percent: Double): TRect; overload;
 
 begin
+{$ifdef win16}
+  Result := Rect;
+  case SplitType of
+    srLeft: Result.Right := Round(Result.Left + (Rect.Right - Rect.Left) * Percent);
+    srRight: Result.Left := Round(Result.Right - (Rect.Right - Rect.Left) * Percent);
+    srTop: Result.Bottom := Round(Result.Top + (Rect.Bottom - Rect.Top) * Percent);
+    srBottom: Result.Top := Round(Result.Bottom - (Rect.Bottom - Rect.Top) * Percent);
+  end;
+{$else}
   Result:=Rect.SplitRect(SplitType,Percent);
+{$endif}
 end;
 
 function CenteredRect(const SourceRect: TRect; const aCenteredRect: TRect): TRect;
@@ -842,9 +878,15 @@ var
   W,H: Integer;
   Center : TPoint;
 begin
+{$ifdef win16}
+  W:=aCenteredRect.Right - aCenteredRect.Left;
+  H:=aCenteredRect.Bottom - aCenteredRect.Top;
+  Center:=CenterPoint(SourceRect);
+{$else}
   W:=aCenteredRect.Width;
   H:=aCenteredRect.Height;
   Center:=SourceRect.CenterPoint;
+{$endif}
   With Center do
     Result:= Rect(X-(W div 2),Y-(H div 2),X+((W+1) div 2),Y+((H+1) div 2));
 end;
@@ -852,7 +894,11 @@ end;
 function RectWidth(const Rect: TRect): Integer;
 
 begin
+{$ifdef win16}
+  Result:=Rect.Right - Rect.Left;
+{$else}
   Result:=Rect.Width;
+{$endif}
 end;
 
 function RectWidth(const Rect: TRectF): Single;
@@ -864,7 +910,11 @@ end;
 function RectHeight(const Rect: TRect): Integer; inline;
 
 begin
+{$ifdef win16}
+  Result:=Rect.Bottom - Rect.Top;
+{$else}
   Result:=Rect.Height;
+{$endif}
 end;
 
 function RectHeight(const Rect: TRectF): Single; inline;
@@ -882,8 +932,13 @@ var
   CS : TPoint;
 
 begin
+{$ifdef win16}
+  C:=CenterPoint(Bounds);
+  CS:=CenterPoint(R);
+{$else}
   C:=Bounds.CenterPoint;
   CS:=R.CenterPoint;
+{$endif}
   OffsetRect(R,C.X-CS.X,C.Y-CS.Y);
   Result:=R;
 end;

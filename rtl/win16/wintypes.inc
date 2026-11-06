@@ -347,17 +347,6 @@ type
   HPALETTE = THandle;
   HFONT    = THandle;
 
-  PRECT = ^RECT;
-  NPRECT = ^RECT; near;
-  LPRECT = ^RECT; far;
-  RECT = record
-    left: SmallInt;
-    top: SmallInt;
-    right: SmallInt;
-    bottom: SmallInt;
-  end;
-  TRect = RECT;
-
   PPOINT = ^POINT;
   NPPOINT = ^POINT; near;
   LPPOINT = ^POINT; far;
@@ -368,6 +357,29 @@ type
   TPoint = POINT;
 
   MAKEPOINT = POINT;
+
+  PRECT = ^RECT;
+  NPRECT = ^RECT; near;
+  LPRECT = ^RECT; far;
+  RECT = record
+    case Integer of
+      0: (left: SmallInt;
+          top: SmallInt;
+          right: SmallInt;
+          bottom: SmallInt);
+      1: (topLeft: POINT;
+          bottomRight: POINT);
+  end;
+  TRect = RECT;
+
+  PSIZE = ^SIZE;
+  NPSIZE = ^SIZE; near;
+  LPSIZE = ^SIZE; far;
+  SIZE = record
+    cx: SmallInt;
+    cy: SmallInt;
+  end;
+  TSize = SIZE;
 
 { Device Capabilities }
 const
@@ -1296,6 +1308,12 @@ const
   SM_CXMINTRACK    = 34;
   SM_CYMINTRACK    = 35;
   SM_CMETRICS      = 36;
+  SM_CXICONSPACING = 38;
+  SM_CYICONSPACING = 39;
+  SM_MENUDROPALIGNMENT = 40;
+  SM_PENWINDOWS    = 41;
+  SM_DBCSENABLED   = 42;
+  SM_CMOUSEBUTTONS = 43;
 
   WM_DEVMODECHANGE = $001B;
   WM_TIMECHANGE    = $001E;
@@ -1897,6 +1915,7 @@ const
   MA_ACTIVATE        = 1;
   MA_ACTIVATEANDEAT  = 2;
   MA_NOACTIVATE      = 3;
+  MA_NOACTIVATEANDEAT = 4;
 
 { SetWindowsHook() mouse hook }
   WH_MOUSE           = 7;
@@ -1989,6 +2008,10 @@ const
 
 { Flags for TrackPopupMenu }
   TPM_LEFTBUTTON     = $0000;
+  TPM_RIGHTBUTTON    = $0002;
+  TPM_LEFTALIGN      = $0000;
+  TPM_CENTERALIGN    = $0004;
+  TPM_RIGHTALIGN     = $0008;
 
 { Menu messages }
   WM_INITMENU        = $0116;

@@ -444,6 +444,16 @@ begin
     paramstr:='';
 end;
 
+Function ParamStrA(l:Longint): AnsiString; [public,alias:'_FPC_ParamStrA'];
+begin
+  if argv=nil then
+    setup_arguments;
+  if (l>=0) and (l+1<=argc) then
+    ParamStrA:=argv[l]
+  else
+    ParamStrA:='';
+end;
+
 procedure randomize;
 begin
   randseed:=GetTickCount;

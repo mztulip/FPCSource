@@ -981,7 +981,7 @@ Implementation
                   page_size:=page_size*2;
                   nb_pages:=(total_size + (page_size-1)*SmartLinkOFiles.count) div page_size;
 		until nb_pages <= high(word);
-                result:=nb_pages;
+                result:=page_size;
               end
             else
               result:=max(16,nextpowerof2(SmartLinkOFiles.count div 16, power));

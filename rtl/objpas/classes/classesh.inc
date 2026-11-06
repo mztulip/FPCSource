@@ -131,7 +131,11 @@ type
   THintEvent = procedure(var HintStr: string; var CanShow: Boolean) of object;
   THelpEvent = function (Command: Word; Data: Longint;
     var CallHelp: Boolean): Boolean of object;
+{$ifdef win16}
+  TGetStrProc = procedure(const S: ShortString) of object;
+{$else}
   TGetStrProc = procedure(const S: string) of object;
+{$endif}
 
 { Exception classes }
 
@@ -3020,10 +3024,14 @@ function Rect(ALeft, ATop, ARight, ABottom: Integer): TRect;
 function Bounds(ALeft, ATop, AWidth, AHeight: Integer): TRect;
 
 function PointsEqual(const P1, P2: TPoint): Boolean; {$ifdef CLASSESINLINE}inline;{$endif CLASSESINLINE}
+{$ifndef win16}
 function PointsEqual(const P1, P2: TSmallPoint): Boolean; {$ifdef CLASSESINLINE}inline;{$endif CLASSESINLINE}
+{$endif}
 function InvalidPoint(X, Y: Integer): Boolean;
 function InvalidPoint(const At: TPoint): Boolean;
+{$ifndef win16}
 function InvalidPoint(const At: TSmallPoint): Boolean;
+{$endif}
 
 { Class registration routines }
 

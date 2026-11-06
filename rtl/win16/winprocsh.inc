@@ -38,6 +38,7 @@ procedure FatalExit(Code: SmallInt); external 'KERNEL';
 procedure FatalAppExit(Action: UINT; MessageText: LPCSTR); external 'KERNEL';
 
 function ExitWindows(dwReturnCode: DWORD; wReserved: UINT): BOOL; external 'USER';
+function ExitWindowsExec(Exe, Params: LPCSTR): BOOL; external 'USER';
 
 procedure DebugBreak; external 'KERNEL';
 procedure OutputDebugString(OutputString: LPCSTR); external 'KERNEL';
@@ -963,6 +964,8 @@ function GetUpdateRgn(hwnd: HWND; hrgn: HRGN; fErase: BOOL): SmallInt; external 
 
 procedure InvalidateRect(hwnd: HWND; lprc: LPRECT; fErase: BOOL); external 'USER';
 procedure ValidateRect(hwnd: HWND; lprc: LPRECT); external 'USER';
+function RedrawWindow(hwnd: HWND; lprcUpdate: LPRECT; hrgnUpdate: HRGN; flags: UINT): BOOL; external 'USER';
+function LockWindowUpdate(hwndLock: HWND): BOOL; external 'USER';
 
 procedure InvalidateRgn(hwnd: HWND; hrgn: HRGN; fErase: BOOL); external 'USER';
 procedure ValidateRgn(hwnd: HWND; hrgn: HRGN); external 'USER';

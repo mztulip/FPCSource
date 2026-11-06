@@ -90,6 +90,11 @@ implementation
         ref.refaddr:=addr_pic
       else
         ref.refaddr:=addr_full;
+{$ifdef i8086}
+      if (target_info.system = system_i8086_win16) or (current_settings.x86memorymodel in x86_far_code_models) then
+        list.concat(taicpu.op_ref(A_JMP,S_FAR,ref))
+      else
+{$endif i8086}
       list.concat(taicpu.op_ref(A_JMP,S_NO,ref));
     end;
 
