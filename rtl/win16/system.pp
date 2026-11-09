@@ -444,7 +444,7 @@ begin
     paramstr:='';
 end;
 
-Function ParamStrA(l:Longint): AnsiString; [public,alias:'_FPC_ParamStrA'];
+Function ParamStrA(l:Integer): AnsiString; [public,alias:'_FPC_ParamStrA'];
 begin
   if argv=nil then
     setup_arguments;

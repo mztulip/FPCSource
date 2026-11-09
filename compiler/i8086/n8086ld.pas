@@ -255,6 +255,25 @@ implementation
                     location.reference.segment:=NR_CS;
                 end;
             end;
+          constsym:
+            begin
+              inherited pass_generate_code;
+              { resourcestring tables (RESSTR_*) live in the data segment of
+                the owning unit, which differs from DS in the huge model, so
+                the segment of the symbol has to be loaded explicitly }
+              if (current_settings.x86memorymodel=mm_huge) and
+                 (tconstsym(symtableentry).consttyp in [constresourcestring,constwresourcestring]) and
+                 (location.loc in [LOC_REFERENCE,LOC_CREFERENCE]) and
+                 assigned(location.reference.symbol) and
+                 (location.reference.segment=NR_NO) then
+                begin
+                  segreg:=cg.getintregister(current_asmdata.CurrAsmList,OS_16);
+                  reference_reset_symbol(segref,location.reference.symbol,0,0,[]);
+                  segref.refaddr:=addr_seg;
+                  cg.a_load_ref_reg(current_asmdata.CurrAsmList,OS_16,OS_16,segref,segreg);
+                  location.reference.segment:=segreg;
+                end;
+            end;
           else
             inherited pass_generate_code;
         end;
