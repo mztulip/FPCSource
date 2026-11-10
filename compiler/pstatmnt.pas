@@ -2093,8 +2093,11 @@ implementation
                srsym.realname:='$hiddenresult';
            end;
 
-         { delphi uses register calling for assembler methods }
+         { delphi uses register calling for assembler methods; not so Delphi 1
+           (win16), and there the convention would only change once the body is
+           parsed, after calls compiled earlier in the unit used the stack }
          if (m_delphi in current_settings.modeswitches) and
+            (target_info.system<>system_i8086_win16) and
             (po_assembler in current_procinfo.procdef.procoptions) and
             not(po_hascallingconvention in current_procinfo.procdef.procoptions) then
            current_procinfo.procdef.proccalloption:=pocall_register;
