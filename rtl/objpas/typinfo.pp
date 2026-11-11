@@ -2977,6 +2977,10 @@ type
   TSetInt64Proc=procedure(i:Int64) of object;
   TSetIntegerProcIndex=procedure(index,i:longint) of object;
   TSetIntegerProc=procedure(i:longint) of object;
+  TSetWordProcIndex=procedure(index:longint;i:word) of object;
+  TSetWordProc=procedure(i:word) of object;
+  TSetByteProcIndex=procedure(index:longint;i:byte) of object;
+  TSetByteProc=procedure(i:byte) of object;
 var
   DataSize: Integer;
   AMethod : TMethod;
@@ -3036,10 +3040,25 @@ begin
           end
         else
           begin
-            if ((PropInfo^.PropProcs shr 6) and 1)<>0 then
-              TSetIntegerProcIndex(AMethod)(PropInfo^.Index,Value)
+            { rozmiar parametru settera musi odpowiadac deklaracji (na i8086
+              Integer to 16 bitow i trafia do innego rejestru niz longint) }
+            case DataSize of
+              1:
+                if ((PropInfo^.PropProcs shr 6) and 1)<>0 then
+                  TSetByteProcIndex(AMethod)(PropInfo^.Index,Byte(Value))
+                else
+                  TSetByteProc(AMethod)(Byte(Value));
+              2:
+                if ((PropInfo^.PropProcs shr 6) and 1)<>0 then
+                  TSetWordProcIndex(AMethod)(PropInfo^.Index,Word(Value))
+                else
+                  TSetWordProc(AMethod)(Word(Value));
             else
-              TSetIntegerProc(AMethod)(Value);
+              if ((PropInfo^.PropProcs shr 6) and 1)<>0 then
+                TSetIntegerProcIndex(AMethod)(PropInfo^.Index,Value)
+              else
+                TSetIntegerProc(AMethod)(Value);
+            end;
           end;
       end;
   else

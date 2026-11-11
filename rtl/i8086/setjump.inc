@@ -15,14 +15,13 @@
 
 {$ifdef WIN16}
 
-Function fpc_SetJmp (Var S : Jmp_buf) : smallint;[Public, alias : 'FPC_SETJMP']; compilerproc;
-begin
-{$ifdef FPC_X86_DATA_NEAR}
-  fpc_SetJmp:=Catch(Ptr(DSeg,Word(@CATCHBUF(S.catch_buf))));
-{$else FPC_X86_DATA_NEAR}
-  fpc_SetJmp:=Catch(@CATCHBUF(S.catch_buf));
-{$endif FPC_X86_DATA_NEAR}
-end;
+{ Catch musi byc wywolany bezposrednio z ramki, ktora pozostaje zywa (kompilator
+  wola fpc_setjmp w funkcji z try/except). Pakowanie Catch we wlasna ramke
+  (poprzednia implementacja) sprawialo, ze Throw wracal do juz zniszczonej ramki
+  fpc_setjmp ('pop ds' ze smieci -> #GP przy kazdym raise). Dlatego fpc_setjmp jest
+  po prostu importem KERNEL.Catch (ta sama sygnatura: wskaznik FAR, retf 4, catch_buf
+  lezy na offsecie 0 jmp_buf). }
+Function fpc_SetJmp (Var S : Jmp_buf) : smallint; compilerproc; external 'KERNEL' name 'Catch';
 
 Procedure fpc_longJmp (Var S : Jmp_buf; value : smallint);[Public, alias : 'FPC_LONGJMP']; compilerproc;
 begin
