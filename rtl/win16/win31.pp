@@ -835,166 +835,166 @@ type
   end;
   TDriverInfoStruct = DRIVERINFOSTRUCT;
 
-function GetFreeSystemResources(SysResource: UINT): UINT; external 'USER';
+function GetFreeSystemResources(SysResource: UINT): UINT; external 'USER' index 284;
 
-procedure LogError(err: UINT; lpInfo: FarPointer); external 'KERNEL';
-procedure LogParamError(err: UINT; lpfn: FARPROC; param: FarPointer); external 'KERNEL';
+procedure LogError(err: UINT; lpInfo: FarPointer); external 'KERNEL' index 324;
+procedure LogParamError(err: UINT; lpfn: FARPROC; param: FarPointer); external 'KERNEL' index 325;
 
-function GetWinDebugInfo(lpwdi: LPWINDEBUGINFO; flags: UINT): BOOL; external 'KERNEL';
-function SetWinDebugInfo(lpwdi: LPWINDEBUGINFO): BOOL; external 'KERNEL';
+function GetWinDebugInfo(lpwdi: LPWINDEBUGINFO; flags: UINT): BOOL; external 'KERNEL' index 355;
+function SetWinDebugInfo(lpwdi: LPWINDEBUGINFO): BOOL; external 'KERNEL' index 356;
 
 procedure DebugOutput(flags: UINT; lpsz: LPCSTR; etc: array of const); cdecl; external 'KERNEL' name '_DebugOutput';
 
-function ExitWindowsExec(Exe, Params: LPCSTR): BOOL; external 'USER';
+function ExitWindowsExec(Exe, Params: LPCSTR): BOOL; external 'USER' index 246;
 
 
 { Pointer validation }
 
-function IsBadReadPtr(lp: FarPointer; cb: UINT): BOOL; external 'KERNEL';
-function IsBadWritePtr(lp: FarPointer; cb: UINT): BOOL; external 'KERNEL';
-function IsBadHugeReadPtr(lp: HugePointer; cb: DWORD): BOOL; external 'KERNEL';
-function IsBadHugeReadPtr(lp: FarPointer; cb: DWORD): BOOL; external 'KERNEL';
-function IsBadHugeWritePtr(lp: HugePointer; cb: DWORD): BOOL; external 'KERNEL';
-function IsBadHugeWritePtr(lp: FarPointer; cb: DWORD): BOOL; external 'KERNEL';
-function IsBadCodePtr(lpfn: FARPROC): BOOL; external 'KERNEL';
-function IsBadStringPtr(lpsz: LPSTR; cchMax: UINT): BOOL; external 'KERNEL';
+function IsBadReadPtr(lp: FarPointer; cb: UINT): BOOL; external 'KERNEL' index 334;
+function IsBadWritePtr(lp: FarPointer; cb: UINT): BOOL; external 'KERNEL' index 335;
+function IsBadHugeReadPtr(lp: HugePointer; cb: DWORD): BOOL; external 'KERNEL' index 346;
+function IsBadHugeReadPtr(lp: FarPointer; cb: DWORD): BOOL; external 'KERNEL' index 346;
+function IsBadHugeWritePtr(lp: HugePointer; cb: DWORD): BOOL; external 'KERNEL' index 347;
+function IsBadHugeWritePtr(lp: FarPointer; cb: DWORD): BOOL; external 'KERNEL' index 347;
+function IsBadCodePtr(lpfn: FARPROC): BOOL; external 'KERNEL' index 336;
+function IsBadStringPtr(lpsz: LPSTR; cchMax: UINT): BOOL; external 'KERNEL' index 337;
 
 { Task Management }
 
-function IsTask(Task: HTASK): BOOL; external 'KERNEL';
+function IsTask(Task: HTASK): BOOL; external 'KERNEL' index 320;
 
 { File I/O }
 
-function _hread(FileHandle: HFILE; Buffer: HugePointer; Bytes: LongInt): LongInt; external 'KERNEL';
-function _hwrite(FileHandle: HFILE; Buffer: HugePointer; Bytes: LongInt): LongInt; external 'KERNEL';
+function _hread(FileHandle: HFILE; Buffer: HugePointer; Bytes: LongInt): LongInt; external 'KERNEL' index 349;
+function _hwrite(FileHandle: HFILE; Buffer: HugePointer; Bytes: LongInt): LongInt; external 'KERNEL' index 350;
 
 { International & AnsiChar Translation Support }
 
-function lstrcpyn(lpszString1: LPSTR; lpszString2: LPCSTR; cChars: SmallInt): LPSTR; external 'KERNEL';
-procedure hmemcpy(hpvDest, hpvSource: HugePointer; cbCopy: LongInt); external 'KERNEL';
-procedure hmemcpy(hpvDest, hpvSource: FarPointer; cbCopy: LongInt); external 'KERNEL';
+function lstrcpyn(lpszString1: LPSTR; lpszString2: LPCSTR; cChars: SmallInt): LPSTR; external 'KERNEL' index 353;
+procedure hmemcpy(hpvDest, hpvSource: HugePointer; cbCopy: LongInt); external 'KERNEL' index 348;
+procedure hmemcpy(hpvDest, hpvSource: FarPointer; cbCopy: LongInt); external 'KERNEL' index 348;
 
-function IsDBCSLeadByte(bTestChar: BYTE): BOOL; external 'KERNEL';
+function IsDBCSLeadByte(bTestChar: BYTE): BOOL; external 'KERNEL' index 207;
 
 { Drawing bounds accumulation APIs }
-function SetBoundsRect(hDC: HDC; lprcBounds: LPRECT; flags: UINT): UINT; external 'GDI';
-function GetBoundsRect(hDC: HDC; lprcBounds: LPRECT; flags: UINT): UINT; external 'GDI';
+function SetBoundsRect(hDC: HDC; lprcBounds: LPRECT; flags: UINT): UINT; external 'GDI' index 193;
+function GetBoundsRect(hDC: HDC; lprcBounds: LPRECT; flags: UINT): UINT; external 'GDI' index 194;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function SetBoundsRect(hDC: HDC; const lprcBounds: RECT; flags: UINT): UINT; external 'GDI';
-function GetBoundsRect(hDC: HDC; var lprcBounds: RECT; flags: UINT): UINT; external 'GDI';
+function SetBoundsRect(hDC: HDC; const lprcBounds: RECT; flags: UINT): UINT; external 'GDI' index 193;
+function GetBoundsRect(hDC: HDC; var lprcBounds: RECT; flags: UINT): UINT; external 'GDI' index 194;
 {$endif}
 
 { Coordinate transformation support }
-function SetWindowOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI';
-function GetWindowOrgEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI';
+function SetWindowOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI' index 482;
+function GetWindowOrgEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI' index 475;
 
-function SetWindowExtEx(hdc: HDC; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
-function GetWindowExtEx(hdc: HDC; lpSize: LPSIZE): BOOL; external 'GDI';
+function SetWindowExtEx(hdc: HDC; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 481;
+function GetWindowExtEx(hdc: HDC; lpSize: LPSIZE): BOOL; external 'GDI' index 474;
 
-function OffsetWindowOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI';
-function ScaleWindowExtEx(hdc: HDC; nXnum, nXdenom, nYnum, nYdenom: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
+function OffsetWindowOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI' index 477;
+function ScaleWindowExtEx(hdc: HDC; nXnum, nXdenom, nYnum, nYdenom: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 485;
 
-function SetViewportExtEx(hdc: HDC; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
-function GetViewportExtEx(hdc: HDC; lpSize: LPSIZE): BOOL; external 'GDI';
+function SetViewportExtEx(hdc: HDC; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 479;
+function GetViewportExtEx(hdc: HDC; lpSize: LPSIZE): BOOL; external 'GDI' index 472;
 
-function SetViewportOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI';
-function GetViewportOrgEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI';
+function SetViewportOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI' index 480;
+function GetViewportOrgEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI' index 473;
 
-function OffsetViewportOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI';
-function ScaleViewportExtEx(hdc: HDC; nXnum, nXdenom, nYnum, nYdenom: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
+function OffsetViewportOrgEx(hdc: HDC; nX, nY: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI' index 476;
+function ScaleViewportExtEx(hdc: HDC; nXnum, nXdenom, nYnum, nYdenom: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 484;
 
 { Brush support }
-function GetBrushOrgEx(hDC: HDC; lpPoint: LPPOINT): BOOL; external 'GDI';
+function GetBrushOrgEx(hDC: HDC; lpPoint: LPPOINT): BOOL; external 'GDI' index 469;
 
 { General drawing support }
-function MoveToEx(hdc: HDC; x, y: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI';
-function GetCurrentPositionEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI';
+function MoveToEx(hdc: HDC; x, y: SmallInt; lpPoint: LPPOINT): BOOL; external 'GDI' index 483;
+function GetCurrentPositionEx(hdc: HDC; lpPoint: LPPOINT): BOOL; external 'GDI' index 470;
 
 { Text support }
-function GetTextExtentPoint(hdc: HDC; lpszString: LPCSTR; cbString: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
+function GetTextExtentPoint(hdc: HDC; lpszString: LPCSTR; cbString: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 471;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function GetTextExtentPoint(hdc: HDC; lpszString: LPCSTR; cbString: SmallInt; var Size: SIZE): BOOL; external 'GDI';
+function GetTextExtentPoint(hdc: HDC; lpszString: LPCSTR; cbString: SmallInt; var Size: SIZE): BOOL; external 'GDI' index 471;
 {$endif}
 
 { Font support }
-function GetAspectRatioFilterEx(hdc: HDC; lpAspectRatio: LPSIZE): BOOL; external 'GDI';
+function GetAspectRatioFilterEx(hdc: HDC; lpAspectRatio: LPSIZE): BOOL; external 'GDI' index 486;
 
-function GetOutlineTextMetrics(hdc: HDC; cbData: UINT; lpotm: LPOUTLINETEXTMETRIC): WORD; external 'GDI';
+function GetOutlineTextMetrics(hdc: HDC; cbData: UINT; lpotm: LPOUTLINETEXTMETRIC): WORD; external 'GDI' index 308;
 
-function EnumFontFamilies(hdc: HDC; lpszFamily: LPCSTR; fntenmprc: FONTENUMPROC; lParam: LPARAM): SmallInt; external 'GDI';
-function EnumFontFamilies(hdc: HDC; lpszFamily: LPCSTR; fntenmprc: TFarProc; lParam: LPARAM): SmallInt; external 'GDI';
+function EnumFontFamilies(hdc: HDC; lpszFamily: LPCSTR; fntenmprc: FONTENUMPROC; lParam: LPARAM): SmallInt; external 'GDI' index 330;
+function EnumFontFamilies(hdc: HDC; lpszFamily: LPCSTR; fntenmprc: TFarProc; lParam: LPARAM): SmallInt; external 'GDI' index 330;
 
-function GetFontData(hdc: HDC; dwTable, dwOffset: DWORD; lpvBuffer: FarPointer; cbData: DWORD): DWORD; external 'GDI';
-function CreateScalableFontResource(fHidden: UINT; lpszResourceFile, lpszFontFile, lpszCurrentPath: LPCSTR): BOOL; external 'GDI';
+function GetFontData(hdc: HDC; dwTable, dwOffset: DWORD; lpvBuffer: FarPointer; cbData: DWORD): DWORD; external 'GDI' index 311;
+function CreateScalableFontResource(fHidden: UINT; lpszResourceFile, lpszFontFile, lpszCurrentPath: LPCSTR): BOOL; external 'GDI' index 310;
 
-function GetGlyphOutline(hdc: HDC; uChar, fuFormat: UINT; lpgm: LPGLYPHMETRICS; cbBuffer: DWORD; lpBuffer: FarPointer; lpmat2: LPMAT2): DWORD; external 'GDI';
+function GetGlyphOutline(hdc: HDC; uChar, fuFormat: UINT; lpgm: LPGLYPHMETRICS; cbBuffer: DWORD; lpBuffer: FarPointer; lpmat2: LPMAT2): DWORD; external 'GDI' index 309;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function GetGlyphOutline(hdc: HDC; uChar, fuFormat: UINT; var gm: GLYPHMETRICS; cbBuffer: DWORD; lpBuffer: FarPointer; var mat2: MAT2): DWORD; external 'GDI';
+function GetGlyphOutline(hdc: HDC; uChar, fuFormat: UINT; var gm: GLYPHMETRICS; cbBuffer: DWORD; lpBuffer: FarPointer; var mat2: MAT2): DWORD; external 'GDI' index 309;
 {$endif}
 
-function GetCharABCWidths(hdc: HDC; uFirstChar, uLastChar: UINT; lpabc: LPABC): BOOL; external 'GDI';
+function GetCharABCWidths(hdc: HDC; uFirstChar, uLastChar: UINT; lpabc: LPABC): BOOL; external 'GDI' index 307;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function GetCharABCWidths(hdc: HDC; uFirstChar, uLastChar: UINT; var abc: ABC): BOOL; external 'GDI';
+function GetCharABCWidths(hdc: HDC; uFirstChar, uLastChar: UINT; var abc: ABC): BOOL; external 'GDI' index 307;
 {$endif}
 
-function GetKerningPairs(hdc: HDC; cPairs: SmallInt; lpkrnpair: LPKERNINGPAIR): SmallInt; external 'GDI';
+function GetKerningPairs(hdc: HDC; cPairs: SmallInt; lpkrnpair: LPKERNINGPAIR): SmallInt; external 'GDI' index 332;
 
-function GetRasterizerCaps(lpraststat: LPRASTERIZER_STATUS; cb: SmallInt): BOOL; external 'GDI';
+function GetRasterizerCaps(lpraststat: LPRASTERIZER_STATUS; cb: SmallInt): BOOL; external 'GDI' index 313;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function GetRasterizerCaps(var raststat: RASTERIZER_STATUS; cb: SmallInt): BOOL; external 'GDI';
+function GetRasterizerCaps(var raststat: RASTERIZER_STATUS; cb: SmallInt): BOOL; external 'GDI' index 313;
 {$endif}
 
 { Bitmap support }
-function SetBitmapDimensionEx(hbm: HBITMAP; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI';
-function GetBitmapDimensionEx(hBitmap: HBITMAP; lpDimension: LPSIZE): BOOL; external 'GDI';
+function SetBitmapDimensionEx(hbm: HBITMAP; nX, nY: SmallInt; lpSize: LPSIZE): BOOL; external 'GDI' index 478;
+function GetBitmapDimensionEx(hBitmap: HBITMAP; lpDimension: LPSIZE): BOOL; external 'GDI' index 468;
 
 { Metafile support }
-function SetMetaFileBitsBetter(hmf: HGLOBAL): HMETAFILE; external 'GDI';
+function SetMetaFileBitsBetter(hmf: HGLOBAL): HMETAFILE; external 'GDI' index 196;
 
 { Printing support }
-function StartDoc(hdc: HDC; lpdi: LPDOCINFO): SmallInt; external 'GDI';
+function StartDoc(hdc: HDC; lpdi: LPDOCINFO): SmallInt; external 'GDI' index 377;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function StartDoc(hdc: HDC; var di: DOCINFO): SmallInt; external 'GDI';
+function StartDoc(hdc: HDC; var di: DOCINFO): SmallInt; external 'GDI' index 377;
 {$endif}
-function StartPage(hdc: HDC): SmallInt; external 'GDI';
-function EndPage(hdc: HDC): SmallInt; external 'GDI';
-function EndDoc(hdc: HDC): SmallInt; external 'GDI';
-function AbortDoc(hdc: HDC): SmallInt; external 'GDI';
+function StartPage(hdc: HDC): SmallInt; external 'GDI' index 379;
+function EndPage(hdc: HDC): SmallInt; external 'GDI' index 380;
+function EndDoc(hdc: HDC): SmallInt; external 'GDI' index 378;
+function AbortDoc(hdc: HDC): SmallInt; external 'GDI' index 382;
 
-function SetAbortProc(hdc: HDC; abrtprc: ABORTPROC): SmallInt; external 'GDI';
+function SetAbortProc(hdc: HDC; abrtprc: ABORTPROC): SmallInt; external 'GDI' index 381;
 function SpoolFile(lpszPrinter, lpszPort, lpszJob, lpszFile: LPSTR): HANDLE; external 'GDI';
 
 { System Parameters support }
-function SystemParametersInfo(uAction, uParam: UINT; lpvParam: FarPointer; fuWinIni: UINT): BOOL; external 'USER';
+function SystemParametersInfo(uAction, uParam: UINT; lpvParam: FarPointer; fuWinIni: UINT): BOOL; external 'USER' index 483;
 
 { Rectangle support }
-function SubtractRect(lprcDest: LPRECT; lprcSource1, lprcSource2: LPRECT): BOOL; external 'USER';
+function SubtractRect(lprcDest: LPRECT; lprcSource1, lprcSource2: LPRECT): BOOL; external 'USER' index 373;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function SubtractRect(var rcDest: RECT; var rcSource1, rcSource2: RECT): BOOL; external 'USER';
+function SubtractRect(var rcDest: RECT; var rcSource1, rcSource2: RECT): BOOL; external 'USER' index 373;
 {$endif}
 
 { Window message support }
-function GetMessageExtraInfo: LPARAM; external 'USER';
-function GetQueueStatus(flags: UINT): DWORD; external 'USER';
+function GetMessageExtraInfo: LPARAM; external 'USER' index 288;
+function GetQueueStatus(flags: UINT): DWORD; external 'USER' index 334;
 
 { Window class management }
 { in Windows 3.1+, RegisterClass returns an ATOM that uniquely identifies the
   class. In Windows 3.0 and earlier, the return value is BOOL. That's why we
   redefine this function in the win31 unit. }
-function RegisterClass(lpwc: LPWNDCLASS): ATOM; external 'USER';
+function RegisterClass(lpwc: LPWNDCLASS): ATOM; external 'USER' index 57;
 {$ifdef VAR_PARAMS_ARE_FAR}
-function RegisterClass(var wc: WNDCLASS): ATOM; external 'USER';
+function RegisterClass(var wc: WNDCLASS): ATOM; external 'USER' index 57;
 {$endif}
 
 { Window size, position, Z-order, and visibility }
-function GetWindowPlacement(hwnd: HWND; lpwndpl: LPWINDOWPLACEMENT): BOOL; external 'USER';
-function SetWindowPlacement(hwnd: HWND; lpwndpl: LPWINDOWPLACEMENT): BOOL; external 'USER';
+function GetWindowPlacement(hwnd: HWND; lpwndpl: LPWINDOWPLACEMENT): BOOL; external 'USER' index 370;
+function SetWindowPlacement(hwnd: HWND; lpwndpl: LPWINDOWPLACEMENT): BOOL; external 'USER' index 371;
 
 { Window coordinate mapping and hit-testing }
 
-procedure MapWindowPoints(hwndFrom, hwndTo: HWND; lppt: LPPOINT; cpt: UINT); external 'USER';
+procedure MapWindowPoints(hwndFrom, hwndTo: HWND; lppt: LPPOINT; cpt: UINT); external 'USER' index 258;
 {$ifdef VAR_PARAMS_ARE_FAR}
-procedure MapWindowPoints(hwndFrom, hwndTo: HWND; var pt: POINT; cpt: UINT); external 'USER';
+procedure MapWindowPoints(hwndFrom, hwndTo: HWND; var pt: POINT; cpt: UINT); external 'USER' index 258;
 {$endif}
 
 { Window drawing support }
@@ -1004,62 +1004,62 @@ procedure MapWindowPoints(hwndFrom, hwndTo: HWND; var pt: POINT; cpt: UINT); ext
         whether the 'register' modifier is ignored by 16-bit C compilers, when the calling
         convention is 'pascal'.
  }
-function GetDCEx({register} hwnd: HWND; hrgnClip: HRGN; flags: DWORD): HDC; external 'USER';
+function GetDCEx({register} hwnd: HWND; hrgnClip: HRGN; flags: DWORD): HDC; external 'USER' index 359;
 
 { Window repainting }
-function LockWindowUpdate(hwndLock: HWND): BOOL; external 'USER';
-function RedrawWindow(hwnd: HWND; lprcUpdate: LPRECT; hrgnUpdate: HRGN; flags: UINT): BOOL; external 'USER';
+function LockWindowUpdate(hwndLock: HWND): BOOL; external 'USER' index 294;
+function RedrawWindow(hwnd: HWND; lprcUpdate: LPRECT; hrgnUpdate: HRGN; flags: UINT): BOOL; external 'USER' index 290;
 
 { Window scrolling }
 function ScrollWindowEx(hwnd: HWND; dx, dy: SmallInt;
           prcScroll, prcClip: LPRECT;
-          hrgnUpdate: HRGN; prcUpdate: LPRECT; flags: UINT): SmallInt; external 'USER';
+          hrgnUpdate: HRGN; prcUpdate: LPRECT; flags: UINT): SmallInt; external 'USER' index 319;
 
 { Menu support }
-function IsMenu(hmenu: HMENU): BOOL; external 'USER';
+function IsMenu(hmenu: HMENU): BOOL; external 'USER' index 358;
 
 { Scroll bar support }
-function EnableScrollBar(hwnd: HWND; fnSBFlags: SmallInt; fuArrowFlags: UINT): BOOL; external 'USER';
+function EnableScrollBar(hwnd: HWND; fnSBFlags: SmallInt; fuArrowFlags: UINT): BOOL; external 'USER' index 482;
 
 { Clipboard Manager Functions }
-function GetOpenClipboardWindow: HWND; external 'USER';
+function GetOpenClipboardWindow: HWND; external 'USER' index 248;
 
 { Mouse cursor support }
-function CopyCursor(hinst: HINST; hcur: HCURSOR): HCURSOR; external 'USER';
-function GetCursor: HCURSOR; external 'USER';
-procedure GetClipCursor(lprc: LPRECT); external 'USER';
+function CopyCursor(hinst: HINST; hcur: HCURSOR): HCURSOR; external 'USER' index 369;
+function GetCursor: HCURSOR; external 'USER' index 247;
+procedure GetClipCursor(lprc: LPRECT); external 'USER' index 309;
 {$ifdef VAR_PARAMS_ARE_FAR}
-procedure GetClipCursor(var rc: RECT); external 'USER';
+procedure GetClipCursor(var rc: RECT); external 'USER' index 309;
 {$endif}
 
 { Icon support }
-function CopyIcon(hinst: HINST; hicon: HICON): HICON; external 'USER';
+function CopyIcon(hinst: HINST; hicon: HICON): HICON; external 'USER' index 368;
 
 { Dialog directory support }
-function DlgDirSelectEx(hwndDlg: HWND; lpszPath: LPSTR; cbPath, idListBox: SmallInt): BOOL; external 'USER';
-function DlgDirSelectComboBoxEx(hwndDlg: HWND; lpszPath: LPSTR; cbPath, idComboBox: SmallInt): BOOL; external 'USER';
+function DlgDirSelectEx(hwndDlg: HWND; lpszPath: LPSTR; cbPath, idListBox: SmallInt): BOOL; external 'USER' index 422;
+function DlgDirSelectComboBoxEx(hwndDlg: HWND; lpszPath: LPSTR; cbPath, idComboBox: SmallInt): BOOL; external 'USER' index 423;
 
 { Windows hook support }
-function SetWindowsHookEx(idHook: SmallInt; lpfn: HOOKPROC; hInstance: HINST; hTask: HTASK): HHOOK; external 'USER';
-function UnhookWindowsHookEx(hHook: HHOOK): BOOL; external 'USER';
-function CallNextHookEx(hHook: HHOOK; code: SmallInt; wParam: WPARAM; lParam: LPARAM): LRESULT; external 'USER';
+function SetWindowsHookEx(idHook: SmallInt; lpfn: HOOKPROC; hInstance: HINST; hTask: HTASK): HHOOK; external 'USER' index 291;
+function UnhookWindowsHookEx(hHook: HHOOK): BOOL; external 'USER' index 292;
+function CallNextHookEx(hHook: HHOOK; code: SmallInt; wParam: WPARAM; lParam: LPARAM): LRESULT; external 'USER' index 293;
 
 { Debugger support }
 function QuerySendMessage(h1, h2, h3: HANDLE; lpmsg: LPMSG): BOOL; external 'USER';
 function LockInput(h1: HANDLE; hwndInput: HWND; fLock: BOOL): BOOL; external 'USER';
-function GetSystemDebugState: LONG; external 'USER';
+function GetSystemDebugState: LONG; external 'USER' index 231;
 
 { Comm support }
-function EnableCommNotification(idComDev: SmallInt; hwnd: HWND; cbWriteNotify, cbOutQueue: SmallInt): BOOL; external 'USER';
+function EnableCommNotification(idComDev: SmallInt; hwnd: HWND; cbWriteNotify, cbOutQueue: SmallInt): BOOL; external 'USER' index 245;
 
 { Driver support }
-function DefDriverProc(dwDriverIdentifier: DWORD; driverID: HDRVR; message: UINT; lParam1, lParam2: LPARAM): LRESULT; external 'USER';
-function OpenDriver(szDriverName, szSectionName: LPCSTR; lParam2: LPARAM): HDRVR; external 'USER';
-function CloseDriver(hDriver: HDRVR; lParam1, lParam2: LPARAM): LRESULT; external 'USER';
-function SendDriverMessage(hDriver: HDRVR; message: UINT; lParam1, lParam2: LPARAM): LRESULT; external 'USER';
-function GetDriverModuleHandle(hDriver: HDRVR): HINST; external 'USER';
-function GetNextDriver(hdrvr: HDRVR; fdwFlag: DWORD): HDRVR; external 'USER';
-function GetDriverInfo(hdrvr: HDRVR; lpdis: LPDRIVERINFOSTRUCT): BOOL; external 'USER';
+function DefDriverProc(dwDriverIdentifier: DWORD; driverID: HDRVR; message: UINT; lParam1, lParam2: LPARAM): LRESULT; external 'USER' index 255;
+function OpenDriver(szDriverName, szSectionName: LPCSTR; lParam2: LPARAM): HDRVR; external 'USER' index 252;
+function CloseDriver(hDriver: HDRVR; lParam1, lParam2: LPARAM): LRESULT; external 'USER' index 253;
+function SendDriverMessage(hDriver: HDRVR; message: UINT; lParam1, lParam2: LPARAM): LRESULT; external 'USER' index 251;
+function GetDriverModuleHandle(hDriver: HDRVR): HINST; external 'USER' index 254;
+function GetNextDriver(hdrvr: HDRVR; fdwFlag: DWORD): HDRVR; external 'USER' index 257;
+function GetDriverInfo(hdrvr: HDRVR; lpdis: LPDRIVERINFOSTRUCT): BOOL; external 'USER' index 256;
 
 implementation
 
