@@ -921,7 +921,11 @@ end;
            msghandler : tmessagehandler;
 
         begin
+{$ifdef WIN16}
+           index:=word(message);
+{$else}
            index:=dword(message);
+{$endif}
            ovmt := PVmt(ClassType);
            while assigned(ovmt) do
              begin
