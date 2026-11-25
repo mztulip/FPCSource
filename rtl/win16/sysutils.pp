@@ -406,24 +406,42 @@ begin
 end;
 
 
+const
+  MaxActiveFindHandles = 64;
+var
+  ActiveFindHandles: array[0..MaxActiveFindHandles - 1] of Pointer;
+
 Function InternalFindFirst (Const Path : RawByteString; Attr : Longint; out Rslt : TAbstractSearchRec; var Name: RawByteString) : Longint;
 
-Var Sr : PSearchrec;
+Var
+  Sr : PSearchrec;
+  I  : Integer;
 
 begin
-  //!! Sr := New(PSearchRec);
   getmem(sr,sizeof(searchrec));
-  Rslt.FindHandle := Sr;
   DOS.FindFirst(Path, Attr, Sr^);
   result := -DosError;
   if result = 0 then
    begin
+     Rslt.FindHandle := Sr;
+     for I := 0 to MaxActiveFindHandles - 1 do
+       if ActiveFindHandles[I] = nil then
+         begin
+           ActiveFindHandles[I] := Sr;
+           Break;
+         end;
      Rslt.Time := Sr^.Time;
      Rslt.Size := Sr^.Size;
      Rslt.Attr := Sr^.Attr;
      Rslt.ExcludeAttr := 0;
      Name := Sr^.Name;
-   end ;
+   end
+  else
+   begin
+     DOS.FindClose(Sr^);
+     freemem(sr,sizeof(searchrec));
+     Rslt.FindHandle := nil;
+   end;
 end;
 
 
@@ -444,21 +462,34 @@ begin
         Rslt.ExcludeAttr := 0;
         Name := Sr^.Name;
       end;
-   end;
+   end
+  else
+   result := -18;
 end;
 
 
 Procedure InternalFindClose(var Handle: Pointer);
 var
   Sr: PSearchRec;
+  I: Integer;
+  Found: Boolean;
 begin
   Sr := PSearchRec(Handle);
   if Sr <> nil then
     begin
-      //!! Dispose(Sr);
-      // This call is non dummy if LFNSupport is true PM
-      DOS.FindClose(SR^);
-      freemem(sr,sizeof(searchrec));
+      Found := False;
+      for I := 0 to MaxActiveFindHandles - 1 do
+        if ActiveFindHandles[I] = Handle then
+          begin
+            ActiveFindHandles[I] := nil;
+            Found := True;
+            Break;
+          end;
+      if Found then
+        begin
+          DOS.FindClose(SR^);
+          freemem(sr,sizeof(searchrec));
+        end;
     end;
   Handle := nil;
 end;
