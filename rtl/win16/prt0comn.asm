@@ -84,6 +84,11 @@
                 ; ES:BX = the command line
                 ; SI = instance handle for the previous application instance (if any)
 
+%ifdef __FAR_DATA__
+                push ds
+                mov ax, seg __fpc_CmdLine
+                mov ds, ax
+%endif
                 mov ax, es
                 mov [__fpc_PrefixSeg], ax
                 mov [__fpc_CmdLine+2], ax
@@ -98,6 +103,9 @@
                 ; The value of SelectorInc is usually 8 in most (all?) win16
                 ; implementations, but it's good practice not to hardcode it.
                 mov word [__fpc_SelectorInc], __AHIncr
+%ifdef __FAR_DATA__
+                pop ds
+%endif
 
                 ; call WaitEvent(0) to clear the event that started this task
                 ; Windows expects this call immediately after InitTask
@@ -108,7 +116,7 @@
                 ; call InitApp(hInstance) to initialize the queue and support
                 ; routines for the app. Windows expects this to be the third
                 ; call in the Win16 startup sequence.
-                push word [__fpc_HInstance]
+                push di
                 call far InitApp
                 test ax, ax
                 jz error

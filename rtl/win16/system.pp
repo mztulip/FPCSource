@@ -258,6 +258,7 @@ begin
   count:=1;
   { calc total arguments length and count }
   arglen:=argv0len+1;
+  if pfc<>nil then
   while pfc^<>#0 do
     begin
       { skip leading spaces }
@@ -342,6 +343,7 @@ begin
 
   pfc:=CmdLine;
   count:=1;
+  if pfc<>nil then
   while pfc^<>#0 do
     begin
       { skip leading spaces }
@@ -485,8 +487,9 @@ Begin
         else
           i:=F.BufPos;
         Move(F.BufPtr^,ErrorBuf[ErrorLen],i);
+        ErrorBuf[ErrorLen+i]:=#0;
+        OutputDebugString(Ptr(Seg(ErrorBuf),Ofs(ErrorBuf)+ErrorLen));
         inc(ErrorLen,i);
-        ErrorBuf[ErrorLen]:=#0;
       end;
       if ErrorLen=ErrorBufferLength then
         begin
@@ -507,6 +510,7 @@ procedure ShowErrMsg;
 begin
   if ErrorLen>0 then
     begin
+      OutputDebugString(Ptr(Seg(ErrorBuf),Ofs(ErrorBuf)));
 {$IFDEF FPC_X86_DATA_NEAR}
       MessageBox(0,Ptr(Seg(ErrorBuf),Ofs(ErrorBuf)),nil,ErrorMessageBoxFlags);
 {$ELSE FPC_X86_DATA_NEAR}

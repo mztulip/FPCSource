@@ -2975,6 +2975,10 @@ begin
 {$endif}
   InitHandlerList:=Nil;
   FindGlobalComponentList:=nil;
+  GlobalLoaded:=nil;
+  GlobalLists:=nil;
+  ComponentPages:=nil;
+  NeedResolving:=nil;
   IntConstList := TThreadList.Create;
   ClassList := TThreadList.Create;
   ClassAliasList := nil;
@@ -2991,22 +2995,26 @@ begin
 {$ifdef FPC_HAS_FEATURE_THREADING}
   GlobalNameSpace.BeginWrite;
 {$endif}
-  with IntConstList.LockList do
-    try
-      for i := 0 to Count - 1 do
-        TIntConst(Items[I]).Free;
-    finally
-      IntConstList.UnlockList;
-    end;
-    IntConstList.Free;
-  ClassList.Free;
-  ClassAliasList.Free;
+  if Assigned(IntConstList) then
+  begin
+    with IntConstList.LockList do
+      try
+        for i := 0 to Count - 1 do
+          TIntConst(Items[I]).Free;
+        Clear;
+      finally
+        IntConstList.UnlockList;
+      end;
+    FreeAndNil(IntConstList);
+  end;
+  FreeAndNil(ClassList);
+  FreeAndNil(ClassAliasList);
   RemoveFixupReferences(nil, '');
 {$ifdef FPC_HAS_FEATURE_THREADING}
   DoneCriticalsection(ResolveSection);
 {$endif}
-  GlobalLists.Free;
-  ComponentPages.Free;
+  FreeAndNil(GlobalLists);
+  FreeAndNil(ComponentPages);
   FreeAndNil(NeedResolving);
 {$ifdef FPC_HAS_FEATURE_THREADING}
   GlobalNameSpace.EndWrite;

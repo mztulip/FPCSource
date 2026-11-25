@@ -51,7 +51,7 @@ END;
 
 procedure DisposeStr(S: PString);
 begin
-  if S <> Nil then
+  if (S <> Nil) and (Pointer(S) <> Pointer(NullStr)) then
    begin
      dispose(s);
      S:=nil;
@@ -60,7 +60,7 @@ end;
 
 PROCEDURE DisposeStr (S: PShortString);
 BEGIN
-   If (S <> Nil) Then FreeMem(S, Length(S^) + 1);     { Release memory }
+   If (S <> Nil) and (Pointer(S) <> Pointer(NullStr)) Then FreeMem(S, Length(S^) + 1);     { Release memory }
 END;
 
 
@@ -68,7 +68,20 @@ END;
 
 procedure AssignStr(var P: PString; const S: string);
 begin
-  P^ := s;
+  if S = '' then
+  begin
+    if (P <> nil) and (Pointer(P) <> Pointer(NullStr)) then
+    begin
+      dispose(P);
+    end;
+    P := NullStr;
+  end
+  else
+  begin
+    if (P = nil) or (Pointer(P) = Pointer(NullStr)) then
+      new(P);
+    P^ := s;
+  end;
 end ;
 
 {   AppendStr appends S to Dest   }

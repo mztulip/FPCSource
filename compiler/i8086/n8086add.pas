@@ -826,7 +826,8 @@ interface
                    (torddef(left.resultdef).ordtype=u32bit)) or
                   ((right.resultdef.typ=orddef) and
                    (torddef(right.resultdef).ordtype=u32bit)) or
-                  is_hugepointer(left.resultdef);
+                  is_hugepointer(left.resultdef) or
+                  (left.resultdef.typ=classrefdef) or (left.resultdef.typ=pointerdef);
 
         { we have LOC_JUMP as result }
         current_asmdata.getjumplabel(truelabel);

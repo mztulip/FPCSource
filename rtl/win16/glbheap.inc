@@ -384,7 +384,10 @@ circular linked list.
             begin
               { todo: do it in a more optimal way? }
               result:=SysGlobalAllocMem(size);
-              Move(p^,result^,SysGlobalMemSize(p));
+              if SysGlobalMemSize(p) < size then
+                Move(p^,result^,SysGlobalMemSize(p))
+              else
+                Move(p^,result^,size);
               SysGlobalFreeMem(p);
             end;
         p := result;

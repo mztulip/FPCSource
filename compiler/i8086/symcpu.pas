@@ -267,7 +267,8 @@ implementation
   { true if p is a far pointer def }
   function is_farpointer(p : tdef) : boolean;
     begin
-      result:=(p.typ=pointerdef) and (tcpupointerdef(p).x86pointertyp=x86pt_far);
+      result:=((p.typ=pointerdef) and (tcpupointerdef(p).x86pointertyp=x86pt_far)) or
+              ((p.typ=classrefdef) and (p.size=4));
     end;
 
   { true if p is a huge pointer def }

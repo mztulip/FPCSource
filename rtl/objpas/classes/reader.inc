@@ -1668,7 +1668,8 @@ begin
           Lock;
           try
             if ResultName<>'' then
-              while Assigned(FindGlobalComponent(ResultName)) do
+              while Assigned(FindGlobalComponent(ResultName)) or
+                    ((Result.Owner <> nil) and (Result.Owner.FindComponent(ResultName) <> nil)) do
               begin
                 Inc(i);
                 ResultName := CompName + '_' + IntToStr(i);
